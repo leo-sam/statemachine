@@ -21,6 +21,8 @@ private Logger logger = LoggerFactory.getLogger(getClass());
     @OnTransition(source = "BLANK_FORM", target = "FULL_FORM")
     public void write(Message<ComplexFormEvents> message) {
     	System.out.println("传递的参数：" + message.getHeaders().get("form"));
+        Form form1 = (Form) message.getHeaders().get("form");
+        form1.setFormName("好的表单12345");
         logger.info("---填写完复杂表单---");
     }
     

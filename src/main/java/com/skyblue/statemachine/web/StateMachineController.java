@@ -194,7 +194,83 @@ public class StateMachineController {
 		stateMachine.sendEvent(message);
 		System.out.println("最终状态：" + stateMachine.getState().getId());
 	}
-	
+
+	@RequestMapping("/testComplexFormStateResult")
+	public void testComplexFormStateResult() throws Exception {
+
+		StateMachine<ComplexFormStates, ComplexFormEvents> stateMachine = complexFormStateMachineBuilder.build(beanFactory);
+		System.out.println(stateMachine.getId());
+
+		Form form1 = new Form();
+		form1.setId("111");
+		form1.setFormName(null);
+
+		Form form2 = new Form();
+		form2.setId("222");
+		form2.setFormName("好的表单");
+
+		Form form3 = new Form();
+		form3.setId("333");
+		form3.setFormName(null);
+
+		// 创建流程
+		System.out.println("-------------------form1------------------");
+
+		stateMachine.start();
+		Message message = MessageBuilder.withPayload(ComplexFormEvents.WRITE).setHeader("form", form1).build();
+		stateMachine.sendEvent(message);
+		Form result = (Form) message.getHeaders().get("form");
+		System.out.println("返回值#########：" + result);
+
+		System.out.println("当前状态：" + stateMachine.getState().getId());
+		message = MessageBuilder.withPayload(ComplexFormEvents.CHECK).setHeader("form", form1).build();
+		stateMachine.sendEvent(message);
+		System.out.println("当前状态：" + stateMachine.getState().getId());
+		message = MessageBuilder.withPayload(ComplexFormEvents.DEAL).setHeader("form", form1).build();
+		stateMachine.sendEvent(message);
+		System.out.println("当前状态：" + stateMachine.getState().getId());
+		message = MessageBuilder.withPayload(ComplexFormEvents.SUBMIT).setHeader("form", form1).build();
+		stateMachine.sendEvent(message);
+		System.out.println("最终状态：" + stateMachine.getState().getId());
+
+		System.out.println("-------------------form2------------------");
+		stateMachine = complexFormStateMachineBuilder.build(beanFactory);
+		stateMachine.start();
+		message = MessageBuilder.withPayload(ComplexFormEvents.WRITE).setHeader("form", form2).build();
+		stateMachine.sendEvent(message);
+		System.out.println("当前状态：" + stateMachine.getState().getId());
+		message = MessageBuilder.withPayload(ComplexFormEvents.CHECK).setHeader("form", form2).build();
+		stateMachine.sendEvent(message);
+		System.out.println("当前状态：" + stateMachine.getState().getId());
+		message = MessageBuilder.withPayload(ComplexFormEvents.DEAL).setHeader("form", form2).build();
+		stateMachine.sendEvent(message);
+		System.out.println("当前状态：" + stateMachine.getState().getId());
+		message = MessageBuilder.withPayload(ComplexFormEvents.SUBMIT).setHeader("form", form2).build();
+		stateMachine.sendEvent(message);
+		System.out.println("最终状态：" + stateMachine.getState().getId());
+
+		System.out.println("-------------------form3------------------");
+		stateMachine = complexFormStateMachineBuilder.build(beanFactory);
+		stateMachine.start();
+		message = MessageBuilder.withPayload(ComplexFormEvents.WRITE).setHeader("form", form3).build();
+		stateMachine.sendEvent(message);
+		System.out.println("当前状态：" + stateMachine.getState().getId());
+		message = MessageBuilder.withPayload(ComplexFormEvents.CHECK).setHeader("form", form3).build();
+		stateMachine.sendEvent(message);
+		System.out.println("当前状态：" + stateMachine.getState().getId());
+		form3.setFormName("好的表单");
+		message = MessageBuilder.withPayload(ComplexFormEvents.DEAL).setHeader("form", form3).build();
+		stateMachine.sendEvent(message);
+		System.out.println("当前状态：" + stateMachine.getState().getId());
+		message = MessageBuilder.withPayload(ComplexFormEvents.SUBMIT).setHeader("form", form3).build();
+		stateMachine.sendEvent(message);
+		message = MessageBuilder.withPayload(ComplexFormEvents.CHECK).setHeader("form", form3).build();
+		stateMachine.sendEvent(message);
+		System.out.println("当前状态：" + stateMachine.getState().getId());
+		message = MessageBuilder.withPayload(ComplexFormEvents.SUBMIT).setHeader("form", form3).build();
+		stateMachine.sendEvent(message);
+		System.out.println("最终状态：" + stateMachine.getState().getId());
+	}
 	@RequestMapping("/sendEvent")
     void sendEvent(String machineId,String events,String id) throws Exception{
 		if(machineId.equals("form")) {

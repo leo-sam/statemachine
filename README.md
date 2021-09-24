@@ -25,6 +25,8 @@
 7. http://localhost:9991/statemachine/testRedisPersisterRestore 从redis取出状态机的演示，显然和上面是一对
 8. http://localhost:9991/statemachine/testOrderRestore 伪持久化和中间段状态机例子
 9. http://localhost:9991/statemachine/testComplexFormState 复杂表单的流程例子
+10. http://localhost:9991/statemachine/testComplexFormStateResult 复杂表单的流程例子(增加获取返回值)
+
 
 #### 教程看我的博客
 https://my.oschina.net/u/173343/blog/3043965 废话篇 <br/>
